@@ -9,21 +9,27 @@ const themeInit = () => {
 	Colors.loadSchemes({
 		light: {
 			screenBG: 'transparent',
+			statusStyle: 'dark',
+			tabBarColor: 'white',
 			textColor: Colors.grey10,
 			moonOrSun: Colors.yellow30,
 			mountainForeground: Colors.green30,
 			mountainBackground: Colors.green50,
 			$backgroundSuccess: Colors.green40,
-			$backgroundSuccessLight: Colors.green70
+			$backgroundSuccessLight: Colors.green70,
+			...ColorsPalette
 		},
 		dark: {
 			screenBG: Colors.grey10,
+			statusStyle: 'light',
+			tabBarColor: Colors.grey20,
 			textColor: Colors.white,
 			moonOrSun: Colors.grey80,
 			mountainForeground: Colors.violet10,
 			mountainBackground: Colors.violet20,
 			$backgroundSuccess: Colors.green40,
-			$backgroundSuccessLight: Colors.green20
+			$backgroundSuccessLight: Colors.green20,
+			...ColorsPalette
 		}
 	});
 
