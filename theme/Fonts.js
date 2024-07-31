@@ -100,5 +100,10 @@ const Styles = {
 		fontSize: 14,
 		lineHeight: 22
 	},
+	tabBarLabel: {
+		fontFamily: Fonts.semiBold,
+		fontSize: 12,
+		lineHeight: 18
+	},
 }
 export { Styles, Fonts }
