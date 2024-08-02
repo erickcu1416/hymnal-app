@@ -3,6 +3,7 @@ import { EventsContextProvider } from "@context/Events";
 import HomePage from "@pages/Hymnal/HymnalPage";
 import ConfigPage from "@pages/Config/ConfigPage";
 import PlaylistPage from "@pages/Playlist/PlaylistPage";
+import SignInPage from "@pages/Auth/SignInPage";
 import SongsPage from "@pages/Songs/SongsPage";
 import WelcomePage from "@pages/WelcomePage";
 import { Platform } from "react-native";
@@ -63,15 +64,48 @@ const HomeNav = () => {
   );
 };
 
-const AppWithContexts = () => {
+const AuthPagesWithContexts = () => {
+  return (
+    <>
+      <AuthPages />
+    </>
+  );
+};
 
+const AuthPages = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        gestureEnabled: false,
+        swipeEnabled: false,
+      }}
+    >
+      <Stack.Screen
+        name="WelcomePageAuth"
+        component={WelcomePage}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SingInPage"
+        component={SignInPage}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const AppWithContexts = () => {
   return (
     <>
       <App />
     </>
   );
 };
-
 const App = () => {
   // const { expoPushToken, notification } = useNotifications()
 
@@ -95,7 +129,6 @@ const App = () => {
   // // Unsubscribe to event listener when component unmount
   //  return () => unsubscribe();
   //   }, [ navigation]);
-
 
   const navigator = useNavigation();
   useEffect(() => {
@@ -217,7 +250,6 @@ const App = () => {
 };
 
 const PublicScreens = () => {
-
   return (
     <EventsContextProvider>
       <Stack.Navigator
@@ -234,10 +266,10 @@ const PublicScreens = () => {
         />
         <Stack.Screen
           name="WelcomePage"
-          component={WelcomePage}
+          component={AuthPagesWithContexts}
           options={{
             presentation: "transparentModal",
-			headerShown: false
+            headerShown: false,
           }}
         />
       </Stack.Navigator>

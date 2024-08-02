@@ -88,7 +88,7 @@ const Colors = {
 	successCheck: '#0E793C',
 	warning: '#E69700',
 	notificationError: '#B27704',
-	link: 'tertiary10',
+	link: '#292F36',
 	bgGradient: '#CFCFFD',
 	bg: '#FCFCFF',
 	delete: '#F53D6B',
