@@ -1,6 +1,6 @@
 import { Colors, Text, View } from 'react-native-ui-lib'
 
-import BaseTemplate from '../../components/templates/BaseTemplate'
+import BaseTemplate from '@components/templates/BaseTemplate'
 import Wrapper from '@components/atoms/Wrapper'
 
 const ConfigPage = () => {

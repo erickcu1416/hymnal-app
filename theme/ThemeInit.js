@@ -39,6 +39,9 @@ const themeInit = () => {
 	Typography.loadTypographies(FontStyles)
 
 	ThemeManager.setComponentTheme('TextField', {
+		fontFamily: 'AvenirNextCyr-Medium',
+		fontSize: 16,
+		lineHeight: 18,
 		placeholderTextColor: Colors.gray400,
 		floatingPlaceholderColor: Colors.gray400
 	})

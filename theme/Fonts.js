@@ -49,6 +49,11 @@ const Styles = {
 		fontSize: 18,
 		lineHeight: 28
 	},
+	screenTitle: {
+		fontFamily: Fonts.semiBold,
+		fontSize: 16,
+		lineHeight: 18
+	},
 	coverTitle: {
 		fontFamily: Fonts.semiBold,
 		fontSize: 48,

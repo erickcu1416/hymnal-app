@@ -143,7 +143,7 @@ const CoverImage = ({
               variant="primary"
               label="Crear cuenta gratis"
               iconOnRight={false}
-              // onPress={() => setPhoneDialogVisible(true)}
+              onPress={() => navigator.navigate("SingInPage")}
             />
           </View>
           <View center>
