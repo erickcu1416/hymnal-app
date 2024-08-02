@@ -3,7 +3,7 @@ import { Colors, Text, View } from 'react-native-ui-lib'
 import BaseTemplate from '../../components/templates/BaseTemplate'
 import Wrapper from '@components/atoms/Wrapper'
 
-const Demo = () => {
+const PlaylistPage = () => {
 	return (
 		<Wrapper edges={['top', 'bottom']} bg={Colors.screenBG}>
 			<BaseTemplate>
@@ -17,4 +17,4 @@ const Demo = () => {
 	)
 }
 
-export default Demo
+export default PlaylistPage

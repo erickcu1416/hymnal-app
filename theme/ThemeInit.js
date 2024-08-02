@@ -8,9 +8,9 @@ import ColorsPalette from '@theme/Colors'
 const themeInit = () => {
 	Colors.loadSchemes({
 		light: {
-			screenBG: 'transparent',
+			screenBG: Colors.white,
 			statusStyle: 'dark',
-			tabBarColor: 'white',
+			tabBarColor: Colors.white,
 			textColor: Colors.grey10,
 			moonOrSun: Colors.yellow30,
 			mountainForeground: Colors.green30,
@@ -20,9 +20,9 @@ const themeInit = () => {
 			...ColorsPalette
 		},
 		dark: {
-			screenBG: Colors.grey10,
-			statusStyle: 'light',
-			tabBarColor: Colors.grey20,
+			screenBG: Colors.white,
+			statusStyle: 'dark',
+			tabBarColor: Colors.white0,
 			textColor: Colors.white,
 			moonOrSun: Colors.grey80,
 			mountainForeground: Colors.violet10,
