@@ -20,17 +20,17 @@ const Fonts = {
 
 const Styles = {
 	h1: {
-		fontFamily: Fonts.semiBold,
+		fontFamily: Fonts.bold,
 		fontSize: 64,
 		lineHeight: 80
 	},
 	h2: {
-		fontFamily: Fonts.semiBold,
+		fontFamily: Fonts.bold,
 		fontSize: 48,
 		lineHeight: 64
 	},
 	h3: {
-		fontFamily: Fonts.semiBold,
+		fontFamily: Fonts.bold,
 		fontSize: 32,
 		lineHeight: 48
 	},
@@ -40,18 +40,23 @@ const Styles = {
 		lineHeight: 36
 	},
 	h5: {
-		fontFamily: Fonts.semiBold,
+		fontFamily: Fonts.bold,
 		fontSize: 20,
 		lineHeight: 30
 	},
 	h6: {
-		fontFamily: Fonts.semiBold,
+		fontFamily: Fonts.bold,
 		fontSize: 18,
 		lineHeight: 28
 	},
+	coverTitle: {
+		fontFamily: Fonts.semiBold,
+		fontSize: 48,
+		lineHeight: 56
+	},
 	subTitle: {
 		fontFamily: Fonts.semiBold,
-		fontSize: 16,
+		fontSize: 18,
 		lineHeight: 24
 	},
 	subTitle2: {

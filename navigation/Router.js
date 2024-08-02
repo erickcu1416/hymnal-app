@@ -4,7 +4,7 @@ import PublicScreens from './PublicScreens.js'
 const Router = () => {
 	return (
 		<NavigationContainer>
-			{PublicScreens()}
+			<PublicScreens />
 		</NavigationContainer>
 	)
 }
