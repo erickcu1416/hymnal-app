@@ -4,6 +4,8 @@ import HomePage from "@pages/Hymnal/HymnalPage";
 import ConfigPage from "@pages/Config/ConfigPage";
 import PlaylistPage from "@pages/Playlist/PlaylistPage";
 import SignInPage from "@pages/Auth/SignInPage";
+import LoginPage from "@pages/Auth/LoginPage";
+import RecoveryPasswordPage from "@pages/Auth/RecoveryPasswordPage";
 import SongsPage from "@pages/Songs/SongsPage";
 import WelcomePage from "@pages/WelcomePage";
 import { Platform } from "react-native";
@@ -91,6 +93,20 @@ const AuthPages = () => {
       <Stack.Screen
         name="SingInPage"
         component={SignInPage}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="LoginPage"
+        component={LoginPage}
+        options={{
+          headerShown: false,
+        }}
+      />
+       <Stack.Screen
+        name="RecoveryPasswordPage"
+        component={RecoveryPasswordPage}
         options={{
           headerShown: false,
         }}

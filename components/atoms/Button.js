@@ -94,14 +94,14 @@ function Button(props) {
 			}
 		},
 		disabled: {
-			bg: Colors.gray100,
-			text: Colors.gray400,
+			bg: Colors.neutral90,
+			text: Colors.neutral60,
 			inverted: {
 				button: {
-					borderColor: Colors.gray200,
+					borderColor: Colors.neutral80,
 					borderWidth: 1
 				},
-				text: Colors.gray400,
+				text: Colors.neutral60,
 				bg: {
 					backgroundColor: 'transparent'
 				}

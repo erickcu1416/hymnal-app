@@ -15,7 +15,7 @@ import Wrapper from "@components/atoms/Wrapper";
 import TextInput from "@components/atoms/TextInput";
 import Header from "@components/atoms/Header";
 import { useNavigation } from "@react-navigation/native";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Button from "@components/atoms/Button";
 import {
   isValidEmail,
@@ -23,18 +23,12 @@ import {
   trimString,
 } from "@utils/validation";
 
-const SignInPage = () => {
+const LoginPage = () => {
   const navigator = useNavigation();
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const lastNameInputRef = useRef(null);
-  const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
-
-  const onCreateAccount = () => {};
 
   return (
     <>
@@ -49,7 +43,7 @@ const SignInPage = () => {
               }}
             >
               <Header
-                title={"Crear cuenta"}
+                title={"Inciar sesión"}
                 titleColor={Colors.dark}
                 onPressBack={() => {
                   navigator.goBack();
@@ -65,40 +59,6 @@ const SignInPage = () => {
                     <View marginH-20 gap={20}>
                       <TextInput
                         input
-                        floatingPlaceholder
-                        placeholder="Nombre(s)"
-                        textContentType="name"
-                        inputMode="text"
-                        returnKeyType="next"
-                        showSoftInputOnFocus
-                        autoComplete="name"
-                        variant="invert"
-                        onChangeText={setName}
-                        onSubmitEditing={() => {
-                          lastNameInputRef.current.focus();
-                        }}
-                        value={name}
-                      />
-                      <TextInput
-                        input
-                        ref={lastNameInputRef}
-                        onSubmitEditing={() => {
-                          emailInputRef.current.focus();
-                        }}
-                        floatingPlaceholder
-                        placeholder="Apellidos(s)"
-                        textContentType="lastname"
-                        inputMode="text"
-                        returnKeyType="next"
-                        showSoftInputOnFocus
-                        autoComplete="lastname"
-                        variant="invert"
-                        onChangeText={setLastName}
-                        value={lastName}
-                      />
-                      <TextInput
-                        input
-                        ref={emailInputRef}
                         onSubmitEditing={() => {
                           passwordInputRef.current.focus();
                         }}
@@ -129,35 +89,27 @@ const SignInPage = () => {
                         value={password}
                       />
                     </View>
-                    {passwordInputRef?.current?.isFocused() ? (
-                      <View paddingH-20 marginT-8>
-                        <Text color={Colors.white} caption>
-                          La contraseña debe tener al menos 8 caracteres e
-                          incluir letras, números y símbolos.
-                        </Text>
-                      </View>
-                    ) : null}
                   </View>
                   <View bottom paddingT-8 paddingB-16 paddingH-20>
                     <Button
                       label="Continuar"
                       variant="primary"
                       disabled={
-                        !name ||
                         !isValidPasswordFormat(trimString(password)) ||
-                        !lastName ||
                         !isValidEmail(trimString(email))
                       }
-                      onPress={onCreateAccount}
+                      onPress={() => {}}
                     />
                     <View row marginT-20 center>
                       <Text color={Colors.white} body1>
-                        ¿Ya tienes una cuenta?
+                        ¿Olvidaste tu contraseña?
                       </Text>
                       <Button
-                        label=" Iniciar sesión"
+                        label="Recuperar"
                         link
-                        onPress={() => navigator.navigate("LoginPage")}
+                        onPress={() =>
+                          navigator.navigate("RecoveryPasswordPage")
+                        }
                       />
                     </View>
                   </View>
@@ -171,4 +123,4 @@ const SignInPage = () => {
   );
 };
 
-export default SignInPage;
+export default LoginPage;
