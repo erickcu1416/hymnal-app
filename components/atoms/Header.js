@@ -19,13 +19,13 @@ const Header = ({
     <SafeAreaView>
       <View row centerV gap={16} style={style}>
         {backButton ? (
-          <View width={'31%'}>
+          <View width={'25%'}>
             <BackButton onPress={onPressBack} />
           </View>
         ) : (
-          <View width={'31%'}>{leftContent}</View>
+          <View width={'25%'}>{leftContent}</View>
         )}
-        <View width={'30.2%'}>
+        <View width={'45.2%'} center>
           <Text
             screenTitle
             numberOfLines={1}
@@ -36,7 +36,7 @@ const Header = ({
             {title}
           </Text>
         </View>
-        <View>
+        <View width={'25%'}>
             {rightContent}
         </View>
       </View>

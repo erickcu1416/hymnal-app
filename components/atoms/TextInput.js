@@ -19,7 +19,7 @@ const TextInput = forwardRef((props, ref) => {
 	} = props
 
 	const [focus, setFocus] = useState(false)
-	const [inputLock, setLock] = useState(true)
+	const [inputLock, setLock] = useState(false)
 
 	const Loading = () => {
 		return <ActivityIndicator color={Colors.disabledText} />
@@ -28,7 +28,7 @@ const TextInput = forwardRef((props, ref) => {
 	const EyeLock = ({ closed = true, onPress = () => {} }) => {
 		return (
 			<TouchableOpacity onPress={() => onPress()}>
-				<Feather name={closed ? 'eye' : 'eye-off'} size={24} color={Colors.primary} />
+				<Feather name={closed ? 'eye' : 'eye-off'} size={20} color={Colors.white} />
 			</TouchableOpacity>
 		)
 	}
@@ -66,13 +66,13 @@ const TextInput = forwardRef((props, ref) => {
 			}
 		},
 		invert: {
-			textField: Colors.white,
+			textField: focus ? Colors.primary30 : Colors.white,
 			field: {
 				fontFamily: 'AvenirNextCyr-Demi',
 				paddingBottom: 5,
 				paddingHorizontal: 8,
 				borderBottomWidth: 1,
-				borderColor: isActive ? Colors.neutral90 : Colors.neutral90,
+				borderColor: focus ? Colors.primary30 : Colors.neutral90,
 				color: Colors.white,
 				borderRadius: 6,
 				backgroundColor: editable ? 'transparent' : Colors.neutral20
@@ -80,7 +80,7 @@ const TextInput = forwardRef((props, ref) => {
 			floatingLabel: {
 				top: isActive ? -6 : -4,
 				fontSize: isActive ? 12 : 16,
-				color: isActive ? Colors.neutral90 : Colors.neutral90,
+				color: focus ? Colors.primary30 : Colors.neutral90,
 				fontFamily: !isActive ? 'AvenirNextCyr-Medium': 'AvenirNextCyr-Demi',
 				...Typography.inputFloatingLabel
 			}
@@ -109,7 +109,7 @@ const TextInput = forwardRef((props, ref) => {
 			// placeholderTextColor={Colors.gray400}
 			// floatingPlaceholderColor={Colors.gray400}
 			leadingAccessory={leftIcon}
-			secureTextEntry={password}
+			secureTextEntry={password && !inputLock}
 			floatingPlaceholder={floatingPlaceholder}
 			floatOnFocus
 			editable={editable}

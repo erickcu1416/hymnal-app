@@ -15,12 +15,30 @@ import Wrapper from "@components/atoms/Wrapper";
 import TextInput from "@components/atoms/TextInput";
 import Header from "@components/atoms/Header";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "@components/atoms/Button";
+import {
+  isValidEmail,
+  isValidPasswordFormat,
+  trimString,
+} from "@utils/validation";
+import { useSinginMutation } from '@store/api/auth.api'
 
 const SignInPage = () => {
   const navigator = useNavigation();
-  const [contactValue, setContactValue] = useState("");
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const lastNameInputRef = useRef(null);
+  const emailInputRef = useRef(null);
+  const passwordInputRef = useRef(null);
+
+  const [requesSingIn, { isLoading: isLoadingRequestSingIn }] = useSinginMutation();
+
+  const onCreateAccount = () => {};
+
   return (
     <>
       <ImageBgPNG>
@@ -54,37 +72,53 @@ const SignInPage = () => {
                         placeholder="Nombre(s)"
                         textContentType="name"
                         inputMode="text"
-                        returnKeyType="done"
+                        returnKeyType="next"
                         showSoftInputOnFocus
                         autoComplete="name"
                         variant="invert"
+                        onChangeText={setName}
+                        onSubmitEditing={() => {
+                          lastNameInputRef.current.focus();
+                        }}
+                        value={name}
                       />
                       <TextInput
                         input
+                        ref={lastNameInputRef}
+                        onSubmitEditing={() => {
+                          emailInputRef.current.focus();
+                        }}
                         floatingPlaceholder
                         placeholder="Apellidos(s)"
                         textContentType="lastname"
                         inputMode="text"
-                        returnKeyType="done"
+                        returnKeyType="next"
                         showSoftInputOnFocus
                         autoComplete="lastname"
                         variant="invert"
+                        onChangeText={setLastName}
+                        value={lastName}
                       />
                       <TextInput
                         input
+                        ref={emailInputRef}
+                        onSubmitEditing={() => {
+                          passwordInputRef.current.focus();
+                        }}
                         // floatingPlaceholder
-                        onChangeText={setContactValue}
+                        onChangeText={setEmail}
+                        value={email}
                         placeholder="Correo"
                         textContentType="emailAddress"
                         keyboardType="email-address"
                         inputMode="email"
-                        returnKeyType="done"
+                        returnKeyType="next"
                         autoComplete="email"
                         variant="invert"
-                        value={contactValue}
                       />
                       <TextInput
                         input
+                        ref={passwordInputRef}
                         floatingPlaceholder
                         placeholder="Contraseña"
                         textContentType="password"
@@ -93,23 +127,40 @@ const SignInPage = () => {
                         showSoftInputOnFocus
                         autoComplete="password"
                         variant="invert"
+                        password
+                        onChangeText={setPassword}
+                        value={password}
                       />
                     </View>
+                    {passwordInputRef?.current?.isFocused() ? (
+                      <View paddingH-20 marginT-8>
+                        <Text color={Colors.white} caption>
+                          La contraseña debe tener al menos 8 caracteres e
+                          incluir letras, números y símbolos.
+                        </Text>
+                      </View>
+                    ) : null}
                   </View>
                   <View bottom paddingT-8 paddingB-16 paddingH-20>
                     <Button
                       label="Continuar"
                       variant="primary"
-                      onPress={() => {}}
+                      disabled={
+                        !name ||
+                        !isValidPasswordFormat(trimString(password)) ||
+                        !lastName ||
+                        !isValidEmail(trimString(email))
+                      }
+                      onPress={onCreateAccount}
                     />
                     <View row marginT-20 center>
                       <Text color={Colors.white} body1>
-                        ¿Olvidaste tu contraseña?
+                        ¿Ya tienes una cuenta?
                       </Text>
                       <Button
-                        label="Recuperar"
+                        label=" Iniciar sesión"
                         link
-                        // onPress={() => handleSubmit('whatsapp')}
+                        onPress={() => navigator.navigate("LoginPage")}
                       />
                     </View>
                   </View>

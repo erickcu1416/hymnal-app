@@ -148,9 +148,9 @@ const CoverImage = ({
           </View>
           <View center>
             <BtnCustom
-              label="Ingresar"
+              label="Iniciar sesión"
               link
-              // onPress={() => handleSubmit('whatsapp')}
+              onPress={() => navigator.navigate("LoginPage")}
             />
           </View>
         </View>
