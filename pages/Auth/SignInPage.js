@@ -22,6 +22,7 @@ import {
   isValidPasswordFormat,
   trimString,
 } from "@utils/validation";
+import { useSinginMutation } from '@store/api/auth.api'
 
 const SignInPage = () => {
   const navigator = useNavigation();
@@ -33,6 +34,8 @@ const SignInPage = () => {
   const lastNameInputRef = useRef(null);
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
+
+  const [requesSingIn, { isLoading: isLoadingRequestSingIn }] = useSinginMutation();
 
   const onCreateAccount = () => {};
 

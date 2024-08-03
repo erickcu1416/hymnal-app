@@ -1,17 +1,41 @@
-import { Colors, View } from 'react-native-ui-lib'
+import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  SafeAreaView,
+  Dimensions,
+} from 'react-native';
+import LoaderKit, { animations } from 'react-native-loader-kit';
 
-import { ActivityIndicator } from 'react-native'
-import LottieView from 'lottie-react-native'
-import PropTypes from 'prop-types'
+const { height } = Dimensions.get('window');
 
-const AnimatedLoader = ({ width = 200, height = 100 }) => {
-	return (
-		<View flex center>
-			<ActivityIndicator size='small' color={Colors.blue600} />
-		</View>
-	)
-}
+const AnimatedLoader = () => {
+  const renderLoaders = animations.map((item, index) => (
+    <View style={{ margin: 10 }} key={index}>
+      <Text style={{ color: 'white', textAlign: 'center' }}>{index + 1}</Text>
+      <LoaderKit style={{ width: 50, height: 50, marginTop: 3 }} name={item} />
+    </View>
+  ));
 
-AnimatedLoader.propTypes = {}
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle={'light-content'} backgroundColor={'#ed5565'} />
+      {renderLoaders}
+    </SafeAreaView>
+  );
+};
 
-export default AnimatedLoader
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#ed5565',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    height,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+export default AnimatedLoader;
