@@ -107,6 +107,7 @@ const LoginPage = () => {
                       <Button
                         label="Recuperar"
                         link
+                        variant='primary'
                         onPress={() =>
                           navigator.navigate("RecoveryPasswordPage")
                         }

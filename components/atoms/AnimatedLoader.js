@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,35 +6,62 @@ import {
   StatusBar,
   SafeAreaView,
   Dimensions,
-} from 'react-native';
-import LoaderKit, { animations } from 'react-native-loader-kit';
+} from "react-native";
+import LoaderKit, { animations } from "react-native-loader-kit";
+import Animated, {
+  useSharedValue,
+  withTiming,
+  Easing,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 
-const { height } = Dimensions.get('window');
+const { height } = Dimensions.get("window");
 
 const AnimatedLoader = () => {
-  const renderLoaders = animations.map((item, index) => (
-    <View style={{ margin: 10 }} key={index}>
-      <Text style={{ color: 'white', textAlign: 'center' }}>{index + 1}</Text>
-      <LoaderKit style={{ width: 50, height: 50, marginTop: 3 }} name={item} />
-    </View>
-  ));
+  const fadeInOpacity = useSharedValue(0);
+
+  const fadeIn = () => {
+    fadeInOpacity.value = withTiming(1, {
+      duration: 500,
+      easing: Easing.linear,
+    });
+  };
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: fadeInOpacity.value, // Use the value directly
+    };
+  });
+
+  useEffect(() => {
+    fadeIn()
+  
+  }, [])
+  
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle={'light-content'} backgroundColor={'#ed5565'} />
-      {renderLoaders}
-    </SafeAreaView>
+    <Animated.View style={[styles.container, animatedStyle]}>
+      <View style={{ margin: 10, backgroundColor: "transparent" }}>
+        <LoaderKit
+          style={{ width: 50, height: 50, marginTop: 3 }}
+          name={"BallSpinFadeLoader"}
+        />
+      </View>
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ed5565',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    height,
-    justifyContent: 'center',
-    alignItems: 'center',
+    position: "absolute",
+    backgroundColor: "rgba(208, 213, 218, 0.6)",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

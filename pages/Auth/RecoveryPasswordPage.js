@@ -55,7 +55,7 @@ const RecoveryPasswordPage = () => {
                   <View flex top>
                     <View marginH-20 gap={20}>
                     <View marginH-20 center>
-                      <Text color={Colors.primary30} center subTitle>
+                      <Text color={Colors.dark} center subTitle>
                         Ingresa tu correo electrónico y te enviaremos un enlace para que restablezcas tu contraseña.
                       </Text>
                     </View>

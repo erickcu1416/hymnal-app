@@ -1,11 +1,13 @@
 import { Colors, Typography, View } from "react-native-ui-lib";
 import { EventsContextProvider } from "@context/Events";
+import { LoaderContextProvider } from "@context/LoaderContext";
 import HomePage from "@pages/Hymnal/HymnalPage";
 import ConfigPage from "@pages/Config/ConfigPage";
 import PlaylistPage from "@pages/Playlist/PlaylistPage";
 import SignInPage from "@pages/Auth/SignInPage";
 import LoginPage from "@pages/Auth/LoginPage";
 import RecoveryPasswordPage from "@pages/Auth/RecoveryPasswordPage";
+import VerifyEmailPage from "@pages/Auth/VerifyEmailPage";
 import SongsPage from "@pages/Songs/SongsPage";
 import WelcomePage from "@pages/WelcomePage";
 import { Platform } from "react-native";
@@ -18,6 +20,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import useTabBar from "@hooks/useTabBar";
 import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
+import AnimatedLoader from "@components/atoms/AnimatedLoader";
+import toastConfig from "@components/atoms/Toast";
+import { useLoaderContext } from '@context/LoaderContext'
+import Toast from 'react-native-toast-message';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -67,9 +73,15 @@ const HomeNav = () => {
 };
 
 const AuthPagesWithContexts = () => {
+  const { loader } = useLoaderContext();
   return (
     <>
       <AuthPages />
+      {
+        loader ? 
+        <AnimatedLoader /> : null
+      }
+       <Toast position={'top'} topOffset={Platform.OS === 'ios' ? 60 : 50} config={toastConfig}/>
     </>
   );
 };
@@ -98,13 +110,20 @@ const AuthPages = () => {
         }}
       />
       <Stack.Screen
+        name="VerifyEmailPage"
+        component={VerifyEmailPage}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="LoginPage"
         component={LoginPage}
         options={{
           headerShown: false,
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="RecoveryPasswordPage"
         component={RecoveryPasswordPage}
         options={{
@@ -116,9 +135,15 @@ const AuthPages = () => {
 };
 
 const AppWithContexts = () => {
+  const { loader } = useLoaderContext();
   return (
     <>
       <App />
+      {
+        loader ? 
+        <AnimatedLoader /> : null
+      }
+      <Toast position={'top'} topOffset={Platform.OS === 'ios' ? 60 : 50} config={toastConfig}/>
     </>
   );
 };
@@ -268,27 +293,29 @@ const App = () => {
 const PublicScreens = () => {
   return (
     <EventsContextProvider>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-          gestureEnabled: false,
-          swipeEnabled: false,
-        }}
-      >
-        <Stack.Screen
-          name="App"
-          component={AppWithContexts}
-          options={{ title: "Boletia" }}
-        />
-        <Stack.Screen
-          name="WelcomePage"
-          component={AuthPagesWithContexts}
-          options={{
-            presentation: "transparentModal",
+      <LoaderContextProvider>
+        <Stack.Navigator
+          screenOptions={{
             headerShown: false,
+            gestureEnabled: false,
+            swipeEnabled: false,
           }}
-        />
-      </Stack.Navigator>
+        >
+          <Stack.Screen
+            name="App"
+            component={AppWithContexts}
+            options={{ title: "Boletia" }}
+          />
+          <Stack.Screen
+            name="WelcomePage"
+            component={AuthPagesWithContexts}
+            options={{
+              presentation: "transparentModal",
+              headerShown: false,
+            }}
+          />
+        </Stack.Navigator>
+      </LoaderContextProvider>
     </EventsContextProvider>
   );
 };
