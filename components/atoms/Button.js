@@ -36,7 +36,7 @@ function Button(props) {
 				}
 			},
 			link: {
-				text: Colors.buttonPrimary,
+				text: 'white',
 				bg: {
 					backgroundColor: 'transparent'
 				}
@@ -65,6 +65,7 @@ function Button(props) {
 				}
 			},
 		},
+		
 		outline: {
 			text: Colors.buttonPrimary,
 			button: {

@@ -22,7 +22,9 @@ import {
   isValidPasswordFormat,
   trimString,
 } from "@utils/validation";
-import { useSinginMutation } from '@store/api/auth.api'
+import { useSinginMutation } from "@store/api/auth.api";
+import { useLoaderContext } from "@context/LoaderContext";
+import Toast from "react-native-toast-message";
 
 const SignInPage = () => {
   const navigator = useNavigation();
@@ -35,9 +37,36 @@ const SignInPage = () => {
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
 
-  const [requesSingIn, { isLoading: isLoadingRequestSingIn }] = useSinginMutation();
+  const [requesSingIn, { isLoading: isLoadingRequestSingIn }] =
+    useSinginMutation();
 
-  const onCreateAccount = () => {};
+  const { showLoader, hideLoader } = useLoaderContext();
+
+  const onCreateAccount = async () => {
+    try {
+      showLoader();
+      const body = {
+        name,
+        last_name: lastName,
+        email,
+        password,
+      };
+      const response = await requesSingIn(body);
+      if (response.error) {
+        Toast.show({
+          type: "error",
+          text1: "Ops!",
+          text2: "Ocurrió un error a crear la cuenta",
+        });
+      } else {
+        navigator.navigate('VerifyEmailPage', {email: email})
+      }
+      console.log("response", response);
+    } catch (error) {
+    } finally {
+      hideLoader();
+    }
+  };
 
   return (
     <>
@@ -160,6 +189,7 @@ const SignInPage = () => {
                       <Button
                         label=" Iniciar sesión"
                         link
+                        variant='primary'
                         onPress={() => navigator.navigate("LoginPage")}
                       />
                     </View>
