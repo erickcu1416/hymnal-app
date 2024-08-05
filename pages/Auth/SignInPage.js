@@ -53,10 +53,11 @@ const SignInPage = () => {
       };
       const response = await requesSingIn(body);
       if (response.error) {
+        console.log('esponse.error', response.error.data.message)
         Toast.show({
           type: "error",
           text1: "Ops!",
-          text2: "Ocurrió un error a crear la cuenta",
+          text2: response.error.data.message,
         });
       } else {
         navigator.navigate('VerifyEmailPage', {email: email})
