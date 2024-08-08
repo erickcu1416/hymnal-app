@@ -1,12 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useMemo, useState } from "react";
 import { signOut } from "firebase/auth";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useLoaderContext } from "@context/LoaderContext";
-import moment from "moment";
 import { setProfile, selectProfile } from "@store/slices/auth.slice";
-import { auth, getAuth } from "../firebaseConfig";
+import { auth } from "../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
+import { useEffect } from "react";
+
 
 const useUser = () => {
   const navigator = useNavigation();
@@ -16,10 +15,12 @@ const useUser = () => {
   const storedProfile = useSelector(selectProfile);
 
   const setNewUser = async (user) => {
+    console.log('USER TO REDUX', user);
     const newUser = {
+      id: user.uid,
       displayName: user.displayName,
       email: user.email,
-      emailVerified: user.email,
+      emailVerified: user.emailVerified,
     };
 
     dispatch(setProfile(newUser));
@@ -43,6 +44,12 @@ const useUser = () => {
     );
     return newToken;
   };
+
+  useEffect(() => {
+    console.log('AUTH CHANGES', auth);
+    console.log('stored profile,', storedProfile);
+  }, [auth])
+  
 
   return {
     user: storedProfile,

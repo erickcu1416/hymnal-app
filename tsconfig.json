@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app/index.js"  ]
+, "app/index.js", "utils/constants/error_codes.js", "utils/mappers/firebase-error.js"  ]
 }

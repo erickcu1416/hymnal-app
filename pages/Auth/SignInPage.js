@@ -17,13 +17,14 @@ import Header from "@components/atoms/Header";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import Button from "@components/atoms/Button";
+import {getStatusErrorWithOutPrefix} from "@utils/mappers/firebase-error";
 import {
   isValidEmail,
   isValidPasswordFormat,
   trimString,
 } from "@utils/validation";
-import { useSinginMutation } from "@store/api/auth.api";
 import { useLoaderContext } from "@context/LoaderContext";
+import useAuth from "@hooks/useAuth";
 import Toast from "react-native-toast-message";
 
 const SignInPage = () => {
@@ -37,10 +38,8 @@ const SignInPage = () => {
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
 
-  const [requesSingIn, { isLoading: isLoadingRequestSingIn }] =
-    useSinginMutation();
-
   const { showLoader, hideLoader } = useLoaderContext();
+  const { signIn } = useAuth()
 
   const onCreateAccount = async () => {
     try {
@@ -51,19 +50,21 @@ const SignInPage = () => {
         email,
         password,
       };
-      const response = await requesSingIn(body);
-      if (response.error) {
-        console.log('esponse.error', response.error.data.message)
-        Toast.show({
-          type: "error",
-          text1: "Ops!",
-          text2: response.error.data.message,
-        });
-      } else {
-        navigator.navigate('VerifyEmailPage', {email: email})
-      }
-      console.log("response", response);
+
+      const res = await signIn(body);
+      if (!res) return;
+     
+      // navigator.navigate('VerifyEmailPage', {email: email})
+
     } catch (error) {
+      console.log('error', error)
+      const errorInterceptor = getStatusErrorWithOutPrefix(error.code);
+      console.log('errorInterceptor', errorInterceptor);
+      Toast.show({
+        type: "error",
+        text1: "Ops!",
+        text2: errorInterceptor?.message || 'Error desconocido',
+      });
     } finally {
       hideLoader();
     }

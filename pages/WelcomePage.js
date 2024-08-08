@@ -54,10 +54,6 @@ const WelcomePage = () => {
     return () => unsub();
   }, []);
 
-  React.useEffect(() => {
-    console.log("USER INFO", userInfo);
-  }, [userInfo]);
-
   return (
     <>
       <BaseTemplate bounce={false}>
