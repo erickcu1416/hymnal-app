@@ -8,6 +8,10 @@ export const ERROR_CODES = {
         code_error: 'A002',
         message: 'El correo ya ha sido registrado.',
     },
+    A003: {
+        code_error: 'A003',
+        message: 'Correo/Contraseña incorrectos',
+    },
     unknown: {
         code_error: 'Unknown',
         message: 'Error desconcido',

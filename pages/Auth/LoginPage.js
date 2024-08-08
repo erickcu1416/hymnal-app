@@ -22,13 +22,44 @@ import {
   isValidPasswordFormat,
   trimString,
 } from "@utils/validation";
+import {
+  getStatusErrorWithOutPrefix
+} from "@utils/mappers/firebase-error";
+import { useLoaderContext } from "@context/LoaderContext";
+import Toast from "react-native-toast-message";
+import useAuth from "@hooks/useAuth";
 
 const LoginPage = () => {
   const navigator = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { showLoader, hideLoader } = useLoaderContext();
 
   const passwordInputRef = useRef(null);
+  const { logIn } = useAuth();
+  const onLoginHandler = async () => {
+    try {
+      showLoader();
+      const body = {
+        email,
+        password,
+      };
+
+      const response = await logIn(body);
+      console.log("lOGIN response", response);
+    } catch (error) {
+      console.log('error', error)
+      const errorInterceptor = getStatusErrorWithOutPrefix(error.code);
+      console.log('errorInterceptor', errorInterceptor);
+      Toast.show({
+        type: "error",
+        text1: "Ops!",
+        text2: errorInterceptor?.message || 'Error desconocido',
+      });
+    } finally {
+      hideLoader();
+    }
+  };
 
   return (
     <>
@@ -94,11 +125,8 @@ const LoginPage = () => {
                     <Button
                       label="Continuar"
                       variant="primary"
-                      disabled={
-                        !isValidPasswordFormat(trimString(password)) ||
-                        !isValidEmail(trimString(email))
-                      }
-                      onPress={() => {}}
+                      disabled={!password || !isValidEmail(trimString(email))}
+                      onPress={onLoginHandler}
                     />
                     <View row marginT-20 center>
                       <Text color={Colors.white} body1>
@@ -107,7 +135,7 @@ const LoginPage = () => {
                       <Button
                         label="Recuperar"
                         link
-                        variant='primary'
+                        variant="primary"
                         onPress={() =>
                           navigator.navigate("RecoveryPasswordPage")
                         }

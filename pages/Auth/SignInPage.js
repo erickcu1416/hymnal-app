@@ -39,7 +39,7 @@ const SignInPage = () => {
   const passwordInputRef = useRef(null);
 
   const { showLoader, hideLoader } = useLoaderContext();
-  const { signIn } = useAuth()
+  const { signUp } = useAuth()
 
   const onCreateAccount = async () => {
     try {
@@ -51,7 +51,7 @@ const SignInPage = () => {
         password,
       };
 
-      const res = await signIn(body);
+      const res = await signUp(body);
       if (!res) return;
      
       // navigator.navigate('VerifyEmailPage', {email: email})
