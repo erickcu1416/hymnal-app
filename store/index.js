@@ -13,20 +13,18 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
-import eventsReducer from "@store/slices/events.slice";
-import tabsReducer from "@store/slices/tabs.slice";
 import { authApi } from "@store/api/auth.api";
+import authReducer from '@store/slices/auth.slice'
 
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
   stateReconciler: autoMergeLevel2,
-  whitelist: ["auth", "events", "tabs"],
+  safelist: ["auth",],
 };
 
 const reducers = combineReducers({
-  events: eventsReducer,
-  tabs: tabsReducer,
+  auth: authReducer,
   [authApi.reducerPath]: authApi.reducer,
 });
 

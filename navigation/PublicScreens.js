@@ -18,6 +18,7 @@ import SharedIcon from "@assets/icons/icon-shared.svg";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import useTabBar from "@hooks/useTabBar";
+import useUser from "@hooks/useUser";
 import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import AnimatedLoader from "@components/atoms/AnimatedLoader";
@@ -171,9 +172,13 @@ const App = () => {
   //  return () => unsubscribe();
   //   }, [ navigation]);
 
+  const {user, token, tokenExpirationTime} = useUser()
+
   const navigator = useNavigation();
   useEffect(() => {
-    navigator.navigate("WelcomePage");
+    if (!user) {
+      navigator.navigate("WelcomePage");
+    }
   }, []);
 
   return (
