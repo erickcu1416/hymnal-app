@@ -60,9 +60,11 @@ const useAuth = () => {
             navigator.navigate('WelcomePage');
         }
         if (user && !user.emailVerified) {
-            navigator.navigate('VerifyEmailPage', {
-              email: user.email
-            })
+            navigator.navigate('VerifyContent', {
+                screen: 'VerifyEmailPage', params: {
+                    email: user.email
+                }
+            });
           }
         
         if (user && user.emailVerified) {

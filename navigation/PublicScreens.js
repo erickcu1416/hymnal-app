@@ -149,6 +149,34 @@ const AppWithContexts = () => {
     </>
   );
 };
+
+const VerifyEmailContext = () => {
+  const { loader } = useLoaderContext();
+  return (
+    <>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        gestureEnabled: false,
+        swipeEnabled: false,
+      }}
+    >
+      <Stack.Screen
+        name="VerifyEmailPage"
+        component={VerifyEmailPage}
+        screenOptions={{
+          gestureEnabled: false,
+        }}
+      />
+    </Stack.Navigator>
+      {
+        loader ? 
+        <AnimatedLoader /> : null
+      }
+      <Toast position={'top'} topOffset={Platform.OS === 'ios' ? 60 : 50} config={toastConfig}/>
+    </>
+  );
+};
 const App = () => {
   // const { expoPushToken, notification } = useNotifications()
 
@@ -321,8 +349,8 @@ const PublicScreens = () => {
             }}
           />
           <Stack.Screen
-            name="VerifyEmailPage"
-            component={VerifyEmailPage}
+            name="VerifyContent"
+            component={VerifyEmailContext}
             options={{
               presentation: "transparentModal",
               headerShown: false,
