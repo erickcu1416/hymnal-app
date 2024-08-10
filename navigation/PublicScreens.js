@@ -88,6 +88,7 @@ const AuthPagesWithContexts = () => {
 };
 
 const AuthPages = () => {
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -111,7 +112,7 @@ const AuthPages = () => {
         }}
       />
       <Stack.Screen
-        name="VerifyEmailPage"
+        name="VerifyEmailProccesAuth"
         component={VerifyEmailPage}
         options={{
           headerShown: false,
@@ -172,14 +173,14 @@ const App = () => {
   //  return () => unsubscribe();
   //   }, [ navigation]);
 
-  const {user, token, tokenExpirationTime} = useUser()
+  // const {user} = useUser()
 
-  const navigator = useNavigation();
-  useEffect(() => {
-    if (!user) {
-      navigator.navigate("WelcomePage");
-    }
-  }, []);
+  // const navigator = useNavigation();
+  // useEffect(() => {
+  //   if (!user) {
+  //     navigator.navigate("WelcomePage");
+  //   }
+  // }, []);
 
   return (
     <Tab.Navigator
@@ -314,6 +315,14 @@ const PublicScreens = () => {
           <Stack.Screen
             name="WelcomePage"
             component={AuthPagesWithContexts}
+            options={{
+              presentation: "transparentModal",
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="VerifyEmailPage"
+            component={VerifyEmailPage}
             options={{
               presentation: "transparentModal",
               headerShown: false,

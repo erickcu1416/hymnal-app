@@ -5,11 +5,45 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import Button from "@components/atoms/Button";
 import { Fonts } from "@theme/Fonts";
 import CheckIcon from "@assets/icons/check.svg";
+import useUser from "@hooks/useUser";
+import useAuth from "@hooks/useAuth";
+import { useLoaderContext } from "@context/LoaderContext";
+import Toast from "react-native-toast-message";
+import { useEffect } from "react";
 
 const VerifyEmailPage = () => {
   const navigator = useNavigation();
   const route = useRoute();
   const { email } = route.params;
+  const { logOut } = useUser();
+  const { sendEmailVerificationForUser } = useAuth();
+  const { showLoader, hideLoader } = useLoaderContext();
+  useEffect(() => {
+    Toast.show({
+      type: "success",
+      text1: "Se ha enviado el correo de verificación exitosamente",
+    });
+  }, [])
+  
+
+  const sendEmailVerificationForUserHandler = () => {
+    try {
+      showLoader();
+      sendEmailVerificationForUser();
+      Toast.show({
+        type: "success",
+        text1: "Se ha enviado el correo de verificación exitosamente",
+      });
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Ops!",
+        text2: 'Ocurrió un error al procesar la solicitud',
+      });
+    } finally {
+      hideLoader();
+    }
+  };
 
   return (
     <BaseForm headerShow={false} title={"Verificar correo"}>
@@ -40,7 +74,7 @@ const VerifyEmailPage = () => {
           <Button
             label="Reenviar correo"
             link
-            onPress={() => navigator.navigate("LoginPage")}
+            onPress={sendEmailVerificationForUserHandler}
           />
           <Button
             label="Hecho"
@@ -56,7 +90,7 @@ const VerifyEmailPage = () => {
           labelStyle={{ fontSize: 13, fontFamily: Fonts.light, color: "black" }}
           onPress={() =>
             // TODO: Agregar eliminar token
-            navigator.navigate("WelcomePageAuth")
+            logOut()
           }
         />
       </View>

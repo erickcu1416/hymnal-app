@@ -1,10 +1,12 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import useUser from "@hooks/useUser";
 import { useUpdateUserDisplayNameMutation } from "@store/api/auth.api";
+import { useNavigation } from "@react-navigation/native";
 const useAuth = () => {
 
-    const { setNewUser } = useUser();
+    const { user, setNewUser } = useUser();
+    const navigator = useNavigation();
     const [requesUpdateDisplayName, { isLoading: isLoadingRequestUpdateDisplayName }] =
     useUpdateUserDisplayNameMutation();
     
@@ -28,7 +30,7 @@ const useAuth = () => {
         await new Promise(resolve => setTimeout(async () => {
             const responseToUpdateUser = await requesUpdateDisplayName(bodyToPostUpdate);
             resolve()
-        }, 2500));
+        }, 5000));
 
         return currentUser;
     }
@@ -42,17 +44,51 @@ const useAuth = () => {
             email: logInResponse.user.email,
             emailVerified: logInResponse.user.emailVerified,
         }
-
-        console.log('newUser to save', newUser);
         
         setNewUser(newUser);
         return logInResponse;
     }
 
+    const sendEmailVerificationForUser = async () => {
+        console.log('current user', auth.currentUser);
+        await sendEmailVerification(auth.currentUser);
+    }
+
+    const validateEmailVerify = () => {
+        console.log('user', user)
+        if (!user) {
+            navigator.navigate('WelcomePage');
+        }
+        if (user && !user.emailVerified) {
+            navigator.navigate('VerifyEmailPage', {
+              email: user.email
+            })
+          }
+        
+        if (user && user.emailVerified) {
+            navigator.navigate('App');
+        }
+    }
+
+    const validateEmailOnRegisterOrLogin = (userResponse) => {
+        if (userResponse.user && !userResponse.user.emailVerified) {
+            navigator.navigate('VerifyEmailProccesAuth', {
+              email: userResponse.user.email
+            })
+          }
+        
+        if (userResponse.user && userResponse.user.emailVerified) {
+            navigator.navigate('App');
+        }
+    }
+
 
     return {
         signUp,
-        logIn
+        logIn,
+        validateEmailVerify,
+        validateEmailOnRegisterOrLogin,
+        sendEmailVerificationForUser
     }
 }
 

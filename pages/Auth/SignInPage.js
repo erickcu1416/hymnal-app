@@ -39,7 +39,7 @@ const SignInPage = () => {
   const passwordInputRef = useRef(null);
 
   const { showLoader, hideLoader } = useLoaderContext();
-  const { signUp } = useAuth()
+  const { signUp, validateEmailOnRegisterOrLogin } = useAuth()
 
   const onCreateAccount = async () => {
     try {
@@ -53,13 +53,13 @@ const SignInPage = () => {
 
       const res = await signUp(body);
       if (!res) return;
+
+      validateEmailOnRegisterOrLogin(res);
      
       // navigator.navigate('VerifyEmailPage', {email: email})
 
     } catch (error) {
-      console.log('error', error)
       const errorInterceptor = getStatusErrorWithOutPrefix(error.code);
-      console.log('errorInterceptor', errorInterceptor);
       Toast.show({
         type: "error",
         text1: "Ops!",

@@ -15,7 +15,6 @@ const useUser = () => {
   const storedProfile = useSelector(selectProfile);
 
   const setNewUser = async (user) => {
-    console.log('USER TO REDUX', user);
     const newUser = {
       id: user.uid,
       displayName: user.displayName,
@@ -44,11 +43,6 @@ const useUser = () => {
     );
     return newToken;
   };
-
-  useEffect(() => {
-    console.log('AUTH CHANGES', auth);
-    console.log('stored profile,', storedProfile);
-  }, [auth])
   
 
   return {

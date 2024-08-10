@@ -36,7 +36,7 @@ const LoginPage = () => {
   const { showLoader, hideLoader } = useLoaderContext();
 
   const passwordInputRef = useRef(null);
-  const { logIn } = useAuth();
+  const { logIn, validateEmailOnRegisterOrLogin } = useAuth();
   const onLoginHandler = async () => {
     try {
       showLoader();
@@ -46,11 +46,13 @@ const LoginPage = () => {
       };
 
       const response = await logIn(body);
-      console.log("lOGIN response", response);
+      if (!response) return; 
+
+      validateEmailOnRegisterOrLogin(response);
+
+      
     } catch (error) {
-      console.log('error', error)
       const errorInterceptor = getStatusErrorWithOutPrefix(error.code);
-      console.log('errorInterceptor', errorInterceptor);
       Toast.show({
         type: "error",
         text1: "Ops!",

@@ -33,26 +33,27 @@ const WelcomePage = () => {
     androidClientId: CLIENT_ID_ANDROID,
   });
 
+
+  const singInGoogleFirebaseWithCredential = async (credential) => {
+    const currentUser = await signInWithCredential(auth, credential);
+    const newUser = {
+      uid: currentUser.user.uid,
+      displayName: currentUser.user.displayName,
+      email: currentUser.user.email,
+      emailVerified: currentUser.user.emailVerified,
+    }
+  
+    setNewUser(newUser);
+    navigator.navigate('App')
+  }
+
   React.useEffect(() => {
     if (response?.type === "success") {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential);
+      singInGoogleFirebaseWithCredential(credential);
     }
   }, [response]);
-
-  React.useEffect(() => {
-    const unsub = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        console.log('USER', user);
-        setNewUser(user);
-        navigator.navigate('App');
-      } else {
-        console.log("user not authenticated");
-      }
-    });
-    return () => unsub();
-  }, []);
 
   return (
     <>
