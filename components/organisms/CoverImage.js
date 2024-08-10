@@ -25,6 +25,7 @@ const CoverImage = ({
   width = "100%",
   height = "auto",
   children,
+  onPressGoogle = () => {}
 }) => {
   const navigator = useNavigation();
   const [counter, setCounter] = useState(0);
@@ -116,6 +117,7 @@ const CoverImage = ({
               round
               backgroundColor={Colors.white}
               enableShadow
+              onPress={() => {onPressGoogle()}}
               style={{ width: 60, height: 60 }}
               iconSource={() => (
                 <View>

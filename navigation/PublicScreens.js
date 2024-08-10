@@ -18,6 +18,7 @@ import SharedIcon from "@assets/icons/icon-shared.svg";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import useTabBar from "@hooks/useTabBar";
+import useUser from "@hooks/useUser";
 import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import AnimatedLoader from "@components/atoms/AnimatedLoader";
@@ -87,6 +88,7 @@ const AuthPagesWithContexts = () => {
 };
 
 const AuthPages = () => {
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -110,7 +112,7 @@ const AuthPages = () => {
         }}
       />
       <Stack.Screen
-        name="VerifyEmailPage"
+        name="VerifyEmailProccesAuth"
         component={VerifyEmailPage}
         options={{
           headerShown: false,
@@ -147,6 +149,34 @@ const AppWithContexts = () => {
     </>
   );
 };
+
+const VerifyEmailContext = () => {
+  const { loader } = useLoaderContext();
+  return (
+    <>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        gestureEnabled: false,
+        swipeEnabled: false,
+      }}
+    >
+      <Stack.Screen
+        name="VerifyEmailPage"
+        component={VerifyEmailPage}
+        screenOptions={{
+          gestureEnabled: false,
+        }}
+      />
+    </Stack.Navigator>
+      {
+        loader ? 
+        <AnimatedLoader /> : null
+      }
+      <Toast position={'top'} topOffset={Platform.OS === 'ios' ? 60 : 50} config={toastConfig}/>
+    </>
+  );
+};
 const App = () => {
   // const { expoPushToken, notification } = useNotifications()
 
@@ -171,10 +201,14 @@ const App = () => {
   //  return () => unsubscribe();
   //   }, [ navigation]);
 
-  const navigator = useNavigation();
-  useEffect(() => {
-    navigator.navigate("WelcomePage");
-  }, []);
+  // const {user} = useUser()
+
+  // const navigator = useNavigation();
+  // useEffect(() => {
+  //   if (!user) {
+  //     navigator.navigate("WelcomePage");
+  //   }
+  // }, []);
 
   return (
     <Tab.Navigator
@@ -309,6 +343,14 @@ const PublicScreens = () => {
           <Stack.Screen
             name="WelcomePage"
             component={AuthPagesWithContexts}
+            options={{
+              presentation: "transparentModal",
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="VerifyContent"
+            component={VerifyEmailContext}
             options={{
               presentation: "transparentModal",
               headerShown: false,

@@ -8,7 +8,8 @@ import { themeInit } from "@theme";
 import { NetworkProvider } from "@context/NetworkContext";
 import Router from "@navigation/Router";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import { store, persistor } from "./store";
+import { PersistGate } from 'redux-persist/integration/react'
 
 export default function Index() {
   // const onFetchUpdateAsync = async () => {
@@ -62,9 +63,11 @@ export default function Index() {
 
   return (
     <Provider store={store}>
-      <NetworkProvider>
-        <Router />
-      </NetworkProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <NetworkProvider>
+          <Router />
+        </NetworkProvider>
+      </PersistGate>
     </Provider>
   );
 }

@@ -27,8 +27,14 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>myapp</string>
+          <string>hymnal-app</string>
           <string>com.erickcu1416.hymnalapp</string>
+        </array>
+      </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>exp+hymnal-app</string>
         </array>
       </dict>
     </array>
@@ -45,6 +51,17 @@
     </dict>
     <key>NSUserActivityTypes</key>
     <array>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>

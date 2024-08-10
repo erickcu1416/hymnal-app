@@ -17,13 +17,14 @@ import Header from "@components/atoms/Header";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import Button from "@components/atoms/Button";
+import {getStatusErrorWithOutPrefix} from "@utils/mappers/firebase-error";
 import {
   isValidEmail,
   isValidPasswordFormat,
   trimString,
 } from "@utils/validation";
-import { useSinginMutation } from "@store/api/auth.api";
 import { useLoaderContext } from "@context/LoaderContext";
+import useAuth from "@hooks/useAuth";
 import Toast from "react-native-toast-message";
 
 const SignInPage = () => {
@@ -37,10 +38,8 @@ const SignInPage = () => {
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
 
-  const [requesSingIn, { isLoading: isLoadingRequestSingIn }] =
-    useSinginMutation();
-
   const { showLoader, hideLoader } = useLoaderContext();
+  const { signUp, validateEmailOnRegisterOrLogin } = useAuth()
 
   const onCreateAccount = async () => {
     try {
@@ -51,18 +50,21 @@ const SignInPage = () => {
         email,
         password,
       };
-      const response = await requesSingIn(body);
-      if (response.error) {
-        Toast.show({
-          type: "error",
-          text1: "Ops!",
-          text2: "Ocurrió un error a crear la cuenta",
-        });
-      } else {
-        navigator.navigate('VerifyEmailPage', {email: email})
-      }
-      console.log("response", response);
+
+      const res = await signUp(body);
+      if (!res) return;
+
+      validateEmailOnRegisterOrLogin(res);
+     
+      // navigator.navigate('VerifyEmailPage', {email: email})
+
     } catch (error) {
+      const errorInterceptor = getStatusErrorWithOutPrefix(error.code);
+      Toast.show({
+        type: "error",
+        text1: "Ops!",
+        text2: errorInterceptor?.message || 'Error desconocido',
+      });
     } finally {
       hideLoader();
     }
