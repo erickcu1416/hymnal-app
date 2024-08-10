@@ -18,8 +18,8 @@ const VerifyEmailPage = () => {
   const navigator = useNavigation();
   const route = useRoute();
   const { email } = route.params;
-  const { logOut } = useUser();
-  const { sendEmailVerificationForUser } = useAuth();
+  const { tryProccess,  } = useUser();
+  const { sendEmailVerificationForUser, reloadUser } = useAuth();
   const { showLoader, hideLoader } = useLoaderContext();
   const [resend, setResend] = useState(true);
   const [time, setTime] = useState(0);
@@ -123,7 +123,7 @@ const VerifyEmailPage = () => {
             label="Hecho"
             variant="primary"
             onPress={() => {
-              navigator.navigate("App");
+              reloadUser()
             }}
           />
         </View>
@@ -131,9 +131,11 @@ const VerifyEmailPage = () => {
           label="Reiniciar proceso de ingreso"
           link
           labelStyle={{ fontSize: 13, fontFamily: Fonts.light, color: "black" }}
-          onPress={() =>
+          onPress={() => {
+
             // TODO: Agregar eliminar token
-            logOut()
+            tryProccess()
+          }
           }
         />
       </View>

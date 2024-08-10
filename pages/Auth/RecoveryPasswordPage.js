@@ -14,18 +14,41 @@ import ImageBgPNG from "@components/atoms/ImageBgPNG";
 import Wrapper from "@components/atoms/Wrapper";
 import TextInput from "@components/atoms/TextInput";
 import Header from "@components/atoms/Header";
+import useAuth from "@hooks/useAuth";
 import { useNavigation } from "@react-navigation/native";
 import { useRef, useState } from "react";
 import Button from "@components/atoms/Button";
-import {
-  isValidEmail,
-  trimString,
-} from "@utils/validation";
-
+import { isValidEmail, trimString } from "@utils/validation";
+import { useLoaderContext } from "@context/LoaderContext";
+import Toast from "react-native-toast-message";
 
 const RecoveryPasswordPage = () => {
   const navigator = useNavigation();
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
+  const { showLoader, hideLoader } = useLoaderContext();
+
+  const { sendEmailPassworResetEmailUser } = useAuth();
+
+  const sendResetPasswordHandler = async () => {
+    try {
+      showLoader();
+      await sendEmailPassworResetEmailUser(email);
+      Toast.show({
+        type: "success",
+        text2:
+          "Se ha enviado un correo para reestablecer tu contraseña, verifica tu bandeja de entrada",
+      });
+      navigator.navigate("LoginPage");
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Ops!",
+        text2: "Ocurrió un error al procesar la solicitud",
+      });
+    } finally {
+      hideLoader();
+    }
+  };
 
   return (
     <>
@@ -54,11 +77,12 @@ const RecoveryPasswordPage = () => {
                 >
                   <View flex top>
                     <View marginH-20 gap={20}>
-                    <View marginH-20 center>
-                      <Text color={Colors.dark} center subTitle>
-                        Ingresa tu correo electrónico y te enviaremos un enlace para que restablezcas tu contraseña.
-                      </Text>
-                    </View>
+                      <View marginH-20 center>
+                        <Text color={Colors.dark} center subTitle>
+                          Ingresa tu correo electrónico y te enviaremos un
+                          enlace para que reestablecer tu contraseña.
+                        </Text>
+                      </View>
                       <TextInput
                         input
                         // floatingPlaceholder
@@ -72,17 +96,16 @@ const RecoveryPasswordPage = () => {
                         autoComplete="email"
                         variant="invert"
                       />
-                     
                     </View>
                   </View>
                   <View bottom paddingT-8 paddingB-16 paddingH-20>
                     <Button
                       label="Recuperar contraseña"
                       variant="primary"
-                      disabled={
-                        !isValidEmail(trimString(email))
-                      }
-                      onPress={() => {}}
+                      disabled={!isValidEmail(trimString(email))}
+                      onPress={() => {
+                        sendResetPasswordHandler();
+                      }}
                     />
                   </View>
                 </View>

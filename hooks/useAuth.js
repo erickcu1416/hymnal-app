@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import useUser from "@hooks/useUser";
 import { useUpdateUserDisplayNameMutation } from "@store/api/auth.api";
@@ -27,6 +27,8 @@ const useAuth = () => {
             "last_name": body.last_name
         }
 
+        await sendEmailVerificationForUser()
+
         await new Promise(resolve => setTimeout(async () => {
             const responseToUpdateUser = await requesUpdateDisplayName(bodyToPostUpdate);
             resolve()
@@ -50,12 +52,21 @@ const useAuth = () => {
     }
 
     const sendEmailVerificationForUser = async () => {
-        console.log('current user', auth.currentUser);
         await sendEmailVerification(auth.currentUser);
     }
 
+    const sendEmailPassworResetEmailUser = async (email) => {
+        await sendPasswordResetEmail(auth, email);
+    }
+
+    const reloadUser = async () => {
+        await auth.currentUser.reload();
+        const newUser = auth.currentUser;
+        setNewUser(newUser);
+        navigator.navigate('App')
+    }
+
     const validateEmailVerify = () => {
-        console.log('user', user)
         if (!user) {
             navigator.navigate('WelcomePage');
         }
@@ -90,7 +101,9 @@ const useAuth = () => {
         logIn,
         validateEmailVerify,
         validateEmailOnRegisterOrLogin,
-        sendEmailVerificationForUser
+        sendEmailVerificationForUser,
+        reloadUser,
+        sendEmailPassworResetEmailUser
     }
 }
 

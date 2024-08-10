@@ -37,6 +37,19 @@ const useUser = () => {
     }
   };
 
+  const tryProccess = async () => {
+    try {
+      showLoader();
+      await signOut(auth);
+      dispatch(setProfile(null));
+      navigator.navigate("App");
+      navigator.navigate("WelcomePage");
+    } catch (error) {
+    } finally {
+      hideLoader();
+    }
+  };
+
   const getToken = async () => {
     const newToken = await auth.currentUser?.auth?.currentUser?.getIdToken(
       true
@@ -50,6 +63,7 @@ const useUser = () => {
     setNewUser,
     logOut,
     getToken,
+    tryProccess,
   };
 };
 
